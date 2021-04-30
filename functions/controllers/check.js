@@ -61,7 +61,7 @@ exports.check = (reqq, resp) => {
 };
 
 exports.checkurl = (reqq, resp, next) => {
-  ststusCheck("fossnsbm.org", 0);
+  ststusCheck("fossnsbm.com", 0);
   ststusCheck("forum.fossnsbm.org", 1);
   next();
 };
@@ -86,7 +86,7 @@ ststusCheck = (url, id) => {
 
   req.on("error", (error) => {
     console.error(error);
-    respons[id].status = "error";
+    // respons[id].status = "Loading";
   });
 
   req.end();
