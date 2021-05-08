@@ -126,7 +126,7 @@ exports.check = async (reqq, resp) => {
     respons[0].status = result[0];
     respons[1].status = result[1];
   })
-  resp.send(respons);
+  resp.json({statusData:respons});
   // resp.send("Hello World");
 };
 
