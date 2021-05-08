@@ -55,22 +55,27 @@ var respons = [
   },
 ];
 
-exports.check = (reqq, resp) => {
-  console.log(respons);
-  resp.json({ statusData: respons });
+exports.check = async (reqq, resp) => {
+  await statusCheck.then(result => {
+    respons[0].status = result;
+    // resp.send(respons);
+    console.log(result);
+  })
+
+  await statusCheck2.then(result => {
+    respons[1].status = result;
+    console.log(result);
+  })
+  resp.send(respons);
+  // resp.send("Hello World");
 };
 
-exports.checkurl = (reqq, resp, next) => {
-  ststusCheck("fossnsbm.com", 0);
-  ststusCheck("forum.fossnsbm.org", 1);
-  next();
-};
+const statusCheck = new Promise((resolve, reject) => {
 
-ststusCheck = (url, id) => {
   const https = require("https");
 
   const options = {
-    hostname: url,
+    hostname: "fossnsbm.org",
     path: "/",
     method: "GET",
   };
@@ -78,9 +83,9 @@ ststusCheck = (url, id) => {
   const req = https.request(options, (res) => {
     console.log(`statusCode: ${res.statusCode}`);
     if (res.statusCode == 200) {
-      respons[id].status = "Active";
+      resolve("Active");
     } else {
-      respons[id].status = "Inactive";
+      resolve("Inactive");
     }
   });
 
@@ -90,4 +95,31 @@ ststusCheck = (url, id) => {
   });
 
   req.end();
-};
+});
+
+const statusCheck2 = new Promise((resolve, reject) => {
+
+  const https = require("https");
+
+  const options = {
+    hostname: "forum.fossnsbm.org",
+    path: "/",
+    method: "GET",
+  };
+
+  const req = https.request(options, (res) => {
+    console.log(`statusCode: ${res.statusCode}`);
+    if (res.statusCode == 200) {
+      resolve("Active");
+    } else {
+      resolve("Inactive");
+    }
+  });
+
+  req.on("error", (error) => {
+    console.error(error);
+    // respons[id].status = "Loading";
+  });
+
+  req.end();
+});
