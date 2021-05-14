@@ -1,8 +1,9 @@
-const express = require('express'),
-router = express.Router(),
+const express = require('express');
 
-check = require('../controllers/check')
+router = express.Router();
 
-router.get('/check', check.check)
+check = require('../controllers/check');
 
-module.exports = router
+router.get('/check', check.check);
+
+module.exports = router;

@@ -60,7 +60,7 @@ const testUrl = [
   "forum.fossnsbm.org",
 ]
 
-exports.check = async (reqq, resp) => {
+exports.check = async (reqq, resp, next) => {
 
   const statusCheck = (url) => {
     return new Promise((resolve, reject) => {
@@ -76,7 +76,11 @@ exports.check = async (reqq, resp) => {
       const req = https.request(options, (res) => {
         console.log(`statusCode: ${res.statusCode}`);
         if (res.statusCode == 200) {
-          resolve("Active");
+          setTimeout(() => {
+            
+              resolve("Active");
+            
+          }, 12000);
         } else {
           resolve("Inactive");
         }
@@ -99,7 +103,14 @@ exports.check = async (reqq, resp) => {
     respons[1].status = result[1];
     // console.log(result);
   })
-  resp.json({statusData:respons});
+  
+
+    if(reqq.timedout) {
+    next();
+  } else {
+    resp.json({statusData:respons});
+  }
+  
   // resp.send("Hello World");
 };
 
