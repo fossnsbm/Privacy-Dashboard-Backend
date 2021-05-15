@@ -1,6 +1,5 @@
 const express = require('express');
 var cors = require('cors');
-const serverless = require('serverless-http');
 var timeout = require('connect-timeout');
 
 const app = express();
@@ -12,7 +11,7 @@ const haltOnTimedout = (req, res, next) => {
     }
 }
 
-app.use(timeout('20s'));
+app.use(timeout('25s'));
 app.use(haltOnTimedout);
 app.use('/', require('./routes/check'));
 
@@ -20,7 +19,6 @@ app.use((err, req, res, next) => {
     res.send('timed out');
   });
 
-// app.listen(4000, ()=>{
-//     console.log("Server start")
-// })
-module.exports.handler = serverless(app);
+app.listen(process.env.PORT || 4000, () => {
+    console.log("Server start");
+})

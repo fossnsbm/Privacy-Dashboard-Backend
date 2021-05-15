@@ -76,11 +76,7 @@ exports.check = async (reqq, resp, next) => {
       const req = https.request(options, (res) => {
         console.log(`statusCode: ${res.statusCode}`);
         if (res.statusCode == 200) {
-          setTimeout(() => {
-            
               resolve("Active");
-            
-          }, 12000);
         } else {
           resolve("Inactive");
         }
