@@ -74,7 +74,7 @@ exports.check = async (reqq, resp, next) => {
       };
     
       const req = https.request(options, (res) => {
-        console.log(`statusCode: ${res.statusCode}`);
+          console.log(`statusCode: ${res.statusCode}`);
         if (res.statusCode == 200) {
               resolve("Active");
         } else {
@@ -85,6 +85,7 @@ exports.check = async (reqq, resp, next) => {
       req.on("error", (error) => {
         console.error(error);
         // respons[id].status = "Loading";
+        resolve("Inactive");
       });
     
       req.end();
